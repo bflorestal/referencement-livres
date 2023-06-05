@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Livre from "../models/livre";
 
@@ -6,14 +6,20 @@ import BookCard from "./BookCard";
 
 export default function BookList({ books }: { books: Livre[] }) {
   return (
-    <FlatList
-      data={books}
-      renderItem={({ item }) => <BookCard {...item} />}
-      contentContainerStyle={{
-        paddingVertical: 5,
-        gap: 10,
-        flexDirection: "row",
-      }}
-    />
+    <View style={styles.bookList}>
+      {books.map((book) => (
+        <BookCard {...book} />
+      ))}
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  bookList: {
+    paddingVertical: 5,
+    gap: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+});
