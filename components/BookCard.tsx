@@ -17,7 +17,7 @@ export default function BookCard({ titre, imageUrl }: BookCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    maxWidth: 150,
+    maxWidth: 100,
     backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
