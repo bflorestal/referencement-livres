@@ -1,7 +1,7 @@
 import {
   Button,
+  FlatList,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -60,21 +60,25 @@ export default function Home({ navigation }: HomeProps) {
           />
         </View>
       </View>
-      <ScrollView style={styles.bookCategoryContainer}>
-        <BookCategory
-          category={{ id: "all", couleur: "#000", genre: "Tous" }}
-          books={LIVRES}
-        />
-        {data.categories.map((category) => (
+      <FlatList
+        data={data.categories}
+        renderItem={({ item }) => (
           <BookCategory
-            key={category.id}
-            category={category}
+            category={item}
             books={data.books.filter((book) =>
-              book.categorieId.includes(category.id)
+              book.categorieId.includes(item.id)
             )}
           />
-        ))}
-      </ScrollView>
+        )}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={
+          <BookCategory
+            category={{ id: "all", couleur: "#000", genre: "Tous" }}
+            books={LIVRES}
+          />
+        }
+        contentContainerStyle={styles.bookCategoryContainer}
+      />
     </View>
   );
 }

@@ -12,7 +12,7 @@ type BookCategoryProps = {
 
 export default function BookCategory({ category, books }: BookCategoryProps) {
   return (
-    <View key={category.id}>
+    <View>
       <Text
         style={[
           styles.categoryTitle,
