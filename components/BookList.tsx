@@ -8,7 +8,7 @@ export default function BookList({ books }: { books: Livre[] }) {
   return (
     <View style={styles.bookList}>
       {books.map((book) => (
-        <BookCard {...book} />
+        <BookCard key={book.id} {...book} />
       ))}
     </View>
   );
