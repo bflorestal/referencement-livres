@@ -26,7 +26,12 @@ export default function BookCategory({ category, books }: BookCategoryProps) {
       >
         {category.genre}
       </Text>
-      {category.id === "all" ? (
+      {books.length === 0 ? (
+        <Text style={styles.noBooksText}>
+          Il n'y a livre dans cette catégorie. Ajoutez-en un en cliquant sur le
+          bouton en haut de l'écran.
+        </Text>
+      ) : category.id === "all" ? (
         <BookList books={books} />
       ) : (
         <BookList
@@ -44,5 +49,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     fontSize: 18,
     fontWeight: "600",
+  },
+  noBooksText: {
+    paddingVertical: 10,
+    textAlign: "center",
   },
 });
