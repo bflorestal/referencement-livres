@@ -16,7 +16,12 @@ export default function BookCategory({ category, books }: BookCategoryProps) {
       <Text
         style={[
           styles.categoryTitle,
-          { backgroundColor: category.couleur, color: "#fff" },
+          {
+            backgroundColor: category.couleur,
+            color: "#fff",
+            textTransform:
+              category.genre.length > 2 ? "capitalize" : "uppercase",
+          },
         ]}
       >
         {category.genre}
@@ -37,7 +42,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,
-    textTransform: "uppercase",
     fontSize: 18,
     fontWeight: "600",
   },
