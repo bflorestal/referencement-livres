@@ -57,7 +57,8 @@ export default function BookItem({ book }: { book: Livre }) {
   );
 }
 
-const rightMaxWidth = 100;
+const RIGHT_MAX_WIDTH = 100;
+const TITLE_MARGIN_BOTTOM = 4;
 
 const styles = StyleSheet.create({
   bookItemContainer: {
@@ -65,15 +66,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   bookImageContainer: {
-    maxWidth: rightMaxWidth,
+    maxWidth: RIGHT_MAX_WIDTH,
     gap: 5,
   },
   bookImage: {
-    width: rightMaxWidth,
+    width: RIGHT_MAX_WIDTH,
     aspectRatio: 3 / 4,
   },
   bookTitle: {
     fontWeight: "600",
+    marginBottom: TITLE_MARGIN_BOTTOM,
   },
   bookDescriptionContainer: {
     padding: 10,
@@ -86,6 +88,8 @@ const styles = StyleSheet.create({
   },
   categoriesListTitle: {
     fontWeight: "500",
+    fontSize: 13,
+    marginBottom: TITLE_MARGIN_BOTTOM,
   },
   categoriesListContainer: {
     flexDirection: "row",
