@@ -4,6 +4,8 @@ import Categorie from "../../models/categorie";
 import type { BookWithoutId } from "../../models/livre";
 import { useState } from "react";
 
+import DropDownPicker from "react-native-dropdown-picker";
+
 type BookModalProps = {
   addBook: (livre: BookWithoutId) => void;
   categories: Categorie[];
@@ -25,6 +27,23 @@ export default function BookModal({
     imageUrl: "",
     tomes: 1,
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownValue, setDropdownValue] = useState<string[]>([]);
+  const [dropdownItems, setDropdownItems] = useState(
+    categories.map((category) => ({
+      label: category.genre,
+      value: category.id,
+    }))
+  );
+
+  const handleDropdownChange = (newBookCategories: string[]) => {
+    console.log("catégories sélectionnées :", newBookCategories);
+    setBook({
+      ...book,
+      categorieId: [...newBookCategories],
+    });
+  };
+
   return (
     <Modal visible={isOpen} animationType="slide">
       <View style={styles.modalContainer}>
@@ -59,13 +78,18 @@ export default function BookModal({
             }
             style={styles.modalInput}
           />
-          {/* TODO: Remplacer par un picker */}
-          <TextInput
-            placeholder="Catégorie"
-            onChangeText={(id: string) =>
-              setBook({ ...book, categorieId: [...book.categorieId, id] })
-            }
-            style={styles.modalInput}
+          <DropDownPicker
+            multiple={true}
+            min={0}
+            zIndex={1000}
+            open={isDropdownOpen}
+            value={dropdownValue}
+            items={dropdownItems}
+            setOpen={setIsDropdownOpen}
+            setValue={setDropdownValue}
+            setItems={setDropdownItems}
+            // @ts-expect-error ValueType[] est correct
+            onChangeValue={handleDropdownChange}
           />
           {/* en cours ? */}
         </View>
@@ -74,6 +98,11 @@ export default function BookModal({
             title="Ajouter"
             color="green"
             onPress={() => {
+              setBook({
+                ...book,
+                categorieId: [...book.categorieId, ...dropdownValue],
+              });
+
               addBook(book);
               closeModal();
             }}

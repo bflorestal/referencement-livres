@@ -33,7 +33,7 @@ export default function Home({ navigation }: HomeProps) {
         ...prevState,
         categories: [
           ...prevState.categories,
-          { ...category, id: (prevState.categories.length + 1).toString() },
+          { ...category, id: `c${prevState.categories.length + 1}` },
         ],
       }));
     }
@@ -46,13 +46,12 @@ export default function Home({ navigation }: HomeProps) {
   };
 
   const addBook = (book: BookWithoutId) => {
-    // TODO: Revoir la condition
-    if (book.titre !== "") {
+    if (book.titre !== "" && book.categorieId.length > 0) {
       setData((prevState) => ({
         ...prevState,
         books: [
           ...prevState.books,
-          { ...book, id: `c${prevState.books.length + 1}` },
+          { ...book, id: `m${prevState.books.length + 1}` },
         ],
       }));
     }
@@ -98,7 +97,7 @@ export default function Home({ navigation }: HomeProps) {
         isOpen={isBookModalOpen}
         addBook={addBook}
         closeModal={closeBookModal}
-        categories={CATEGORIES}
+        categories={data.categories}
       />
       <FlatList
         data={data.categories}
