@@ -11,9 +11,12 @@ import type { RootStackParamList } from "./types";
 import { useState } from "react";
 
 import { CATEGORIES, LIVRES } from "../models/data";
-import Categorie from "../models/categorie";
-import Livre from "../models/livre";
+import type { CategoryWithoutId } from "../models/categorie";
+import type { BookWithoutId } from "../models/livre";
+
 import BookCategory from "../components/BookCategory";
+import CategoryModal from "../components/modals/Category";
+import BookModal from "../components/modals/Book";
 
 type HomeProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Recherche">;
@@ -21,19 +24,44 @@ type HomeProps = {
 
 export default function Home({ navigation }: HomeProps) {
   const [data, setData] = useState({ categories: CATEGORIES, books: LIVRES });
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false);
 
-  const addCategory = (category: Categorie) => {
-    setData((prevState) => ({
-      ...prevState,
-      categories: [...prevState.categories, category],
-    }));
+  const addCategory = (category: CategoryWithoutId) => {
+    if (category.genre !== "" || category.couleur !== "") {
+      setData((prevState) => ({
+        ...prevState,
+        categories: [
+          ...prevState.categories,
+          { ...category, id: (prevState.categories.length + 1).toString() },
+        ],
+      }));
+    }
+
+    closeCategoryModal();
   };
 
-  const addBook = (book: Livre) => {
-    setData((prevState) => ({
-      ...prevState,
-      books: [...prevState.books, book],
-    }));
+  const closeCategoryModal = () => {
+    setIsCategoryModalOpen(false);
+  };
+
+  const addBook = (book: BookWithoutId) => {
+    // TODO: Revoir la condition
+    if (book.titre !== "") {
+      setData((prevState) => ({
+        ...prevState,
+        books: [
+          ...prevState.books,
+          { ...book, id: `c${prevState.books.length + 1}` },
+        ],
+      }));
+    }
+
+    closeBookModal();
+  };
+
+  const closeBookModal = () => {
+    setIsBookModalOpen(false);
   };
 
   return (
@@ -52,14 +80,26 @@ export default function Home({ navigation }: HomeProps) {
         <View style={styles.addButtonsContainer}>
           <Button
             title="Ajouter une catégorie"
-            onPress={() => console.log("Ouverture de la modale")}
+            onPress={() => setIsCategoryModalOpen(true)}
           />
           <Button
             title="Ajouter un livre"
-            onPress={() => console.log("Ouverture de la modale")}
+            onPress={() => setIsBookModalOpen(true)}
           />
         </View>
       </View>
+      {/* Modales d'ajout de catégorie et de livre */}
+      <CategoryModal
+        isOpen={isCategoryModalOpen}
+        addCategory={addCategory}
+        closeModal={closeCategoryModal}
+      />
+      <BookModal
+        isOpen={isBookModalOpen}
+        addBook={addBook}
+        closeModal={closeBookModal}
+        categories={CATEGORIES}
+      />
       <FlatList
         data={data.categories}
         renderItem={({ item }) => (
