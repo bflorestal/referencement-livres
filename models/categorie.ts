@@ -11,3 +11,5 @@ class Categorie {
 }
 
 export default Categorie;
+
+export type CategoryWithoutId = Omit<Categorie, "id">;

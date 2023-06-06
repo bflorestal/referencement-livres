@@ -27,3 +27,5 @@ class Livre {
 }
 
 export default Livre;
+
+export type BookWithoutId = Omit<Livre, "id">;
