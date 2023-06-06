@@ -1,16 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
 import Livre from "../models/livre";
-import { CATEGORIES } from "../models/data";
-
-function getCategoryName(categoryId: string) {
-  return CATEGORIES.find((category) => category.id === categoryId)?.genre;
-}
-
-function getCategoryColor(categoryId: string) {
-  const category = CATEGORIES.find((category) => category.id === categoryId);
-  return category?.couleur;
-}
+import { getCategoryColor, getCategoryName } from "../utils/categories";
 
 export default function BookItem({ book }: { book: Livre }) {
   return (
